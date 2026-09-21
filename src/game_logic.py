@@ -41,7 +41,9 @@ def place_mines(grid, mine_count):
 
 
 def make_first_move_safe(grid, row, col):
-    """Move nearby mines away from the first cell selected by the player.
+    """Move mines out of the selected cell's 3x3 area.
+
+    Assumes count_adjacent_mines() after place_mines() have already been called
     Args:
         grid (2D list): 2D representation of the grid
         row (int): Row index of the selected cell
@@ -94,7 +96,9 @@ def make_first_move_safe(grid, row, col):
     count_adjacent_mines(grid)
         
 def count_adjacent_mines(grid):
-    """Update the adjacent mine count for each cell
+    """Recalculate each cell's adjacent mine count.
+
+    Counts are reset first, so this function is safe to call more than once.
     Args:
         grid (2D list): 2D representation of the grid
     """
@@ -131,8 +135,10 @@ def count_flags(grid):
     return sum(cell.is_flagged for row in grid for cell in row)
  
 def remaining_mines(grid, total_mines):
-    """Calculate the number of remaining mines to flag (assuming that all flags 
-    have been placed correctly)
+    """Calculate how many flags can still be placed.
+
+    This is a display value based only on the number of flags, not on whether
+    those flags are actually covering mines.
     Args:
         grid (2D): 2D representation of the grid
         total_mines (int): The total number of mines
@@ -215,7 +221,9 @@ def uncover_cell(grid, row, col):
 
 
 def create_first_move_handler():
-    """Return an uncover action that protects only the first uncover.
+    """Return an uncover action that protects the first real uncover.
+
+    Attempts to uncover a flagged cell do not consume first-move protection.
     Returns:
         function: A function that uncovers a cell and makes the first move safe.
     """

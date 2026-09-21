@@ -24,7 +24,7 @@ if __name__ == "__main__":
     grid = create_grid(10)
     uncover_action = create_first_move_handler()
 
-    # Prompt user for mine count and place them
+    # Set up mines and their derived adjacent-mine counts before the first move.
     total_mines = get_mine_count(10, 20)
     
     place_mines(grid, total_mines)

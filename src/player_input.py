@@ -3,17 +3,16 @@ Description: This file contains functions to handle player input and display min
 '''
 
 def get_player_input(grid, uncover_action, flag_action):
-    """
-    Get input from the player and execute the corresponding action.
+    """Get input from the player and execute the corresponding action.
+
+    Accepted commands are `A4` to uncover, 
+    `A4, Flag` and  `Flag, A4` to flag.
+
     Args:
         grid (2D list): 2D representation of the grid
         uncover_action (function): Function to uncover a cell
         flag_action (function): Function to flag a cell
     """
-    """Command format:
-        A4
-        A4, Flag
-        Flag, A4 """
     
     print("\nEnter a command in the format 'A4' to uncover a cell or 'A4, Flag' to flag a cell.")
     command = input("Enter command: ").strip()
