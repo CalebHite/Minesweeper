@@ -100,6 +100,10 @@ def count_adjacent_mines(grid):
     """
     size = len(grid)
 
+    for row in grid:
+        for cell in row:
+            cell.adjacent_mines = 0
+
     for row in range(size):
         for col in range(size):
             if grid[row][col].is_mine:
@@ -226,11 +230,13 @@ def create_first_move_handler():
         """
         nonlocal first_uncover
 
-        if first_uncover:
+        if first_uncover and not grid[row][col].is_flagged:
             make_first_move_safe(grid, row, col)
-            first_uncover = False
 
         uncover_cell(grid, row, col)
+
+        if first_uncover and grid[row][col].is_uncovered:
+            first_uncover = False
 
     return uncover_with_first_move_safe
 
