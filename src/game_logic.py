@@ -249,6 +249,29 @@ def create_first_move_handler():
     return uncover_with_first_move_safe
 
 
+def hint_cell(grid, row, col, uncover_action, flag_action):
+    """Give the player a hint about a selected cell.
+
+    If the cell is a mine, it is flagged instead of uncovered so the player
+    is warned without losing. If the cell is safe, it is uncovered as normal.
+    Args:
+        grid (2D list): 2D representation of the grid
+        row (int): Row index of the selected cell
+        col (int): Column index of the selected cell
+        uncover_action (function): Function to uncover a cell
+        flag_action (function): Function to flag a cell
+    Returns:
+        None
+    """
+    cell = grid[row][col]
+
+    if cell.is_mine:
+        if not cell.is_flagged:
+            flag_action(grid, row, col)
+    else:
+        uncover_action(grid, row, col)
+
+
 def flag_cell(grid, row, col):
     """Toggle the flag on a selected cell.
     Args:
