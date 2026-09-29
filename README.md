@@ -13,6 +13,7 @@ This project is a simple Python implementation of the classic Minesweeper game. 
 - Reveal a tile: A4
 - Flag or unflag a tile: Flag, A4
 - Alternate flag format: A4, Flag
+- Quit: Q or Quit
 
 ## Features
 - 10x10 board
@@ -21,6 +22,7 @@ This project is a simple Python implementation of the classic Minesweeper game. 
 - automatic clearing of empty spaces
 - flagging and unflagging support
 - loss reveal of all mines
+- limited hints (3 per game): `A4, Hint` or `Hint, A4` ( `H` also works)
 
 ## Requirements
 - Python 3
@@ -31,7 +33,8 @@ Minesweeper/
 ├── README.md
 ├── doc/
 │   ├── 01 - System Architecture
-│   └── 02 - Meeting logs
+│   ├── 02 - Meeting logs
+│   └── 03 - Custom Feature - Hint System UML.md
 └── src/
     ├── board.py
     ├── display.py
