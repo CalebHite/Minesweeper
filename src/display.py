@@ -1,7 +1,12 @@
-'''
-Description: This file contains functions to display the 
-current state of the grid and the cells' current state.
-'''
+"""
+Module: display
+Description: Renders the Minesweeper board to the console for the current turn.
+Inputs: A 2D grid of Cell objects (read-only for display).
+Outputs: Formatted text to stdout (column labels, row numbers, cell symbols).
+External sources: None.
+Author: Previous Group
+Date: 09/29/2026
+"""
 
 def print_grid(grid):
     """Print the current state of the grid and the cells' current state.

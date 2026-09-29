@@ -1,9 +1,13 @@
-'''
-Description: This file contains the Cell class and the create_grid function for the Minesweeper game.
-The Cell class represents each cell in the grid, with attributes for mine status, 
-uncover status, flag status, and adjacent mine count. 
-The create_grid function generates a 2D list of Cell objects.
-'''
+"""
+Module: board
+Description: Defines the Cell data type and factory for an empty Minesweeper grid.
+    Each cell tracks mine presence, cover/flag state, and adjacent mine count.
+Inputs: Grid dimensions passed to create_grid(size).
+Outputs: A size-by-size 2D list of Cell instances.
+External sources: None.
+Author: Previous Group
+Date: 09/29/2026
+"""
 class Cell:
     """Class for grid cell's states and adjacent mine counter
     """

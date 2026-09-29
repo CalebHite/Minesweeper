@@ -1,10 +1,17 @@
-'''
-Description: This file contains the game logic for Minesweeper, 
-including functions for mine configuration, uncovering cells, 
-flagging cells, and checking the game status.
-'''
+"""
+Module: game_logic
+Description: Core Minesweeper rules—mine setup, first-move safety, uncover and
+    flag actions, win/loss checks, and limited hints.
+Inputs: Grid of Cell objects, coordinates, mine counts, and optional callbacks.
+Outputs: Mutated grid state, status strings, mine/flag counts, and hint success.
+External sources: None.
+Authors: Charlie Doherty, Caleb Hite
+Date: 09/29/2026
+"""
 
 import random
+
+MAX_HINTS = 3
 
 # Mine configuration functions
 def get_mine_count(min_mines=10, max_mines=20):
@@ -261,15 +268,24 @@ def hint_cell(grid, row, col, uncover_action, flag_action):
         uncover_action (function): Function to uncover a cell
         flag_action (function): Function to flag a cell
     Returns:
-        None
+        bool: True if a hint was used successfully, False otherwise.
     """
     cell = grid[row][col]
 
+    if cell.is_uncovered:
+        print("Cannot hint on a cell that is already uncovered.")
+        return False
+
+    if cell.is_flagged:
+        print("Cannot hint on a cell that is already flagged.")
+        return False
+
     if cell.is_mine:
-        if not cell.is_flagged:
-            flag_action(grid, row, col)
+        flag_action(grid, row, col)
     else:
         uncover_action(grid, row, col)
+
+    return True
 
 
 def flag_cell(grid, row, col):
