@@ -1,7 +1,7 @@
 """
 Module: player_input
-Description: Parses player commands (uncover, flag, hint, quit) and reveals all mine
-    locations after a loss.
+Description: Parses player commands (uncover, flag, hint, AI Solver, quit) and
+    reveals all mine locations after a loss.
 Inputs: Grid, uncover/flag callbacks, hints remaining; interactive command strings.
 Outputs: Updated hints remaining; side effects on the grid via callbacks;
     console prompts and error messages; mine map on loss.
@@ -11,6 +11,7 @@ Date: 09/29/2026
 """
 
 from game_logic import hint_cell
+from ai_solver import run_solver_move
 
 def get_player_input(grid, uncover_action, flag_action, hints_remaining):
     """Get input from the player and execute the corresponding action.
@@ -19,7 +20,9 @@ def get_player_input(grid, uncover_action, flag_action, hints_remaining):
     `A4, Flag` and `Flag, A4` to flag,
     and `A4, Hint` and `Hint, A4` (or `H` in place of `Hint`) to get a hint.
     A hint flags the cell if it's a mine, or uncovers it if it's safe.
-    Each game allows a limited number of hints. Enter `Q` or `Quit` to exit.
+    Each game allows a limited number of hints.
+    `AI Solver, Easy` (or `Easy, AI Solver`) lets the AI Solver take one turn.
+    Enter `Q` or `Quit` to exit.
 
     Args:
         grid (2D list): 2D representation of the grid
@@ -33,7 +36,8 @@ def get_player_input(grid, uncover_action, flag_action, hints_remaining):
 
     print(
         "\nEnter a command in the format 'A4' to uncover a cell, 'A4, Flag' to flag a cell, "
-        "or 'A4, Hint' (or 'A4, H') for a hint. Enter 'Q' or 'Quit' to leave the game."
+        "or 'A4, Hint' (or 'A4, H') for a hint. Enter 'AI Solver, Easy' to let the AI Solver "
+        "take a turn. Enter 'Q' or 'Quit' to leave the game."
     )
     print(f"Hints remaining: {hints_remaining}")
     command = input("Enter command: ").strip()
@@ -61,10 +65,18 @@ def get_player_input(grid, uncover_action, flag_action, hints_remaining):
             print("Invalid cell.")
         return hints_remaining, False
 
-    # handle flagging and hint commands
+    # handle flagging, hint, and AI Solver commands
     elif len(parts) == 2:
         first_part = parts[0].upper()
         second_part = parts[1].upper()
+
+        # the AI Solver command pairs the keyword with a difficulty, not a cell
+        if first_part in ("AI SOLVER", "AI"):
+            run_solver_move(grid, uncover_action, second_part)
+            return hints_remaining, False
+        elif second_part in ("AI SOLVER", "AI"):
+            run_solver_move(grid, uncover_action, first_part)
+            return hints_remaining, False
 
         # figure out which part is the cell and which is the action keyword
         if first_part == "FLAG":
